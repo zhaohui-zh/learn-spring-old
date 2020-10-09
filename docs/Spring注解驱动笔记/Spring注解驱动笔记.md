@@ -7,30 +7,46 @@
 
 
 
+# 注册组件
+
+给容器中注册组件的方式
+
+1. 包扫描+组件标注注解（@Component、@Service、@Controller、@Repository），[主要是自己写的类]
+2. @Bean，[导入的第三方包里面的组件]
+3. @Import，[快速给容器中导入组件]，有三种用法
+   -  Import（类名），容器中就会自动注册这个组件，id默认是组件的全类名
+   -  ImportSelector：返回需要导入的组件的全类名的数组
+   -  ImportBeanDefinitionRegistrar：手动注册bean
+4. 使用Spring提供的FactoryBean（工厂bean）
+   - 默认获取到的是工厂bean调用getObject创建的对
+   - 要获取到bean本身，需要给id前面加个&标识
+
+
+
 # 注解总结
 
 ## 组件注册相关
 
 ## 
 
-| 注解        | 说明                                                         |
-| ----------- | ------------------------------------------------------------ |
-| @Bean       | 标注在方法上，给容器中注册一个Bean；类型为返回值的类型，id默认为方法名；可以通过name参数自定义id |
-| @Scope      | 与@Bean配合使用，指定Bean的作用域                            |
-| @Component  | 标注在类上，表示该类是一个组件；Spring可以通过自动扫描的方式将该类注册到ioc容器，id默认为类名首字母小写 |
-| @Controller | 与@Component相同，强调标注的类是一个Controller               |
-| @Service    | 与@Component相同，强调标注的类是一个Service                  |
-| @Repository | 与@Component相同，强调标注的类是一个Dao                      |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
+| 注解         | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| @Bean        | 标注在方法上，给容器中注册一个Bean；类型为返回值的类型，id默认为方法名；可以通过name参数自定义id |
+| @Scope       | 标注在方法（与@Bean 配合）或类（与@Component系配合）上，指定Bean的作用域 |
+| @Component   | 标注在类上，表示该类是一个组件；Spring可以通过自动扫描的方式将该类注册到ioc容器，id默认为类名首字母小写 |
+| @Controller  | 与@Component相同，强调标注的类是一个Controller               |
+| @Service     | 与@Component相同，强调标注的类是一个Service                  |
+| @Repository  | 与@Component相同，强调标注的类是一个Dao                      |
+| @Conditional | 标注在方法或类上；标注在方法上时，与@Bean配合使用，满足条件才会注册Bean；标注在类上时，与@Configuration配合使用，满足条件时，这个配置类中所有bean注册才能生效；value=Class<? extends Condition>[] |
+| @Import      | 标注在类上，快速给容器中导入组件，详见组件注册的描述         |
+| @Lazy        | 标注在方法（与@Bean 配合）或类（与@Component系配合）上，表示懒加载，即容器启动不创建对象，第一次使用（获取）Bean时创建对象，并初始化；该注解只针对单实例Bean（单实例Bean：默认在容器启动的时候创建对象）； |
+|              |                                                              |
+|              |                                                              |
+|              |                                                              |
+|              |                                                              |
+|              |                                                              |
+|              |                                                              |
+|              |                                                              |
 
 ## 配置相关
 
