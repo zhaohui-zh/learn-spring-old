@@ -1,9 +1,6 @@
 package com.zh.config;
 
-import com.zh.bean.Color;
-import com.zh.bean.MyImportBeanDefinitionRegistrar;
-import com.zh.bean.Person;
-import com.zh.bean.Red;
+import com.zh.bean.*;
 import com.zh.condition.LinuxCondition;
 import com.zh.condition.MyImportSelector;
 import com.zh.condition.WindowsCondition;
@@ -61,4 +58,12 @@ public class MainConfig2 {
     //      1) @Import(要导入到容器中的组件)，容器中就会自动组测这个组件，id默认是全类名
     //      2) ImportSelector: 返回需要导入的组建的全类名数组
     //      3) ImportBeanDefinitionRegistrar，手动注册bean到容器中
+    // 4. 使用Spring提供的FactoryBean（工厂ean）
+    //      1) 默认获取到的是工厂Bean调用getObject创建的对象
+    //      2) 要回去工厂Bean本身，需要给id前面加一个&，(如"&colorFactoryBean")
+
+    @Bean
+    public ColorFactoryBean colorFactoryBean() {
+        return new ColorFactoryBean();
+    }
 }
