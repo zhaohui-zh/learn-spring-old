@@ -137,6 +137,42 @@ Object colorFactoryBean4 = applicationContext.getBean("&colorFactoryBean");
 
 
 
+# 环境切换
+
+```java
+/**
+ * Profile:
+ *      Spring为我们提供的可以根据当前环境，动态的激活和切换一系列组件的功能
+ *
+ * 开发环境、测试环境、生产环境
+ * 数据源 A、B、C
+ *
+ *
+ * @Profile ，指定组件在那个环境下才能被注册到容器中，不指定，任何环境下都能注册这个组件
+ *
+ * 1. 加了环境标识(环境标志自定义)的bean，只有这个环境被激活的时候才能注册到容器中。默认是default环境
+ * 2. 写在配置类上，只有是指定的环境的时候，整个配置里面的所有配置才能生效
+ * 3. 没有标注环境标志的bean，在任何环境下都是加载的
+ *
+ * @author Zhaohui
+ * @date 2020/10/12
+ */
+
+// 切换环境的方法：
+// 1. 使用命令行动态参数:在虚拟机参数位置加载：-Dspring.profiles.active=test
+// 2. 使用代码的方式激活某种环境
+// 1） 创建一个applicationContext
+AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+// 2） 设置需要激活的环境
+applicationContext.getEnvironment().setActiveProfiles("dev");
+// 3） 注册主配置类
+applicationContext.register(MainConfigProfile.class);
+// 4） 启动刷新容器
+applicationContext.refresh();
+```
+
+
+
 # 注解总结
 
 ## 组件注册相关
@@ -160,7 +196,17 @@ Object colorFactoryBean4 = applicationContext.getBean("&colorFactoryBean");
 | @Qualifier     | 标注位置与@Autowired相同，与@Autowired搭配使用，指定需要装配的组件id，而不是按照默认规则装配（按照类型或属性名装配） |
 | @Resource      | 和@Autowired一样，可以实现自动装配功能，默认是按照组件名称进行装配的，可以指定名称（@Resource(name="beanName")）,不支持@Primary功能，不支持@Autowired(required=false)功能 |
 | @Inject        | 需要导入javax.inject依赖，和@Autiwired一样，支持@Primary，没有required=false的功能 |
-| @Value         | 标注在属性上，从运行环境加载环境变量的值（加载配置文件中的key/value），并进行赋值属性 |
+| @Value         | 标注在属性上，也可以标注在标注了@Bean注解的方法的参数前面；从运行环境加载环境变量的值（加载配置文件中的key/value），并进行赋值属性 |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
+|                |                                                              |
 
 ## 配置相关
 
@@ -172,7 +218,7 @@ Object colorFactoryBean4 = applicationContext.getBean("&colorFactoryBean");
 | @Filter          | 是@ComponentScan内部的注解，封装过滤条件；type = FilterType.xxx，指定过滤类型，classes=class<?>[]（FilterType为ANNOTATION、ASSIGNABLE_TYPE时）， 指定符合条件的类；pattern=String[]（FilterType为ASPECTJ、REGEX时）指定表达式；FilterType为枚举类：FilterType.ANNOTATION 按照注解的方式、FilterType.ASSIGNABLE_TYPE 按照给定的类型、FilterType.ASPECTJ 使用ASPECTJ表表达式、FilterType.REGEX 使用正则表达式、FilterType.CUSTOM 使用自定义规则 |
 | @PropertySource  | 标注在配置类上，将配置文件中的key/value加载到运行时的环境变量中，加载完外部的配置文件后可以使用${}取出配置文件中的值 |
 | @PropertySources | 标注在配置类上，封装多个@PropertySource                      |
-|                  |                                                              |
+| @Profile         | 标注在配置类或@Bean标注的方法上，只有在指定环境下，配置类或bean注册才能生效，环境标识符可以自定义 |
 |                  |                                                              |
 |                  |                                                              |
 |                  |                                                              |
