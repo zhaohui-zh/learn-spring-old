@@ -19,4 +19,6 @@ public class Cat implements InitializingBean, DisposableBean {
     public void destroy() throws Exception {
         System.out.println("cat destroy...");
     }
+
+
 }

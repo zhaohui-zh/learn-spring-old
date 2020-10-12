@@ -1,5 +1,7 @@
 package com.zh.controller;
 
+import com.zh.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -10,4 +12,6 @@ import org.springframework.stereotype.Controller;
 // @Scope("prototype")
 @Controller
 public class BookController {
+    @Autowired
+    private BookService bookService;
 }
